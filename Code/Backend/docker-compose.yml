@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: .
+      args:
+        NODE_ENV: ${NODE_ENV} # Use NODE_ENV from the .env file
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env # Load all environment variables from the .env file
+    volumes:
+      - .:/app # Mount source code for live updates in dev mode
+      - /app/node_modules # Avoid conflicts with host's node_modules
+    command: >
+      sh -c "if [ '$${NODE_ENV}' = 'development' ]; then npm run dev; else node server.js; fi"
